@@ -11,8 +11,8 @@ fi
 if ! [ -e ~/oma/"$OMAADRESS"/blog.html ]
 then
     echo "pulling blog"
-    mkdir ~/workspace
-    mkdir -p ~/oma/"$OMAADRESS"
+    mkdir ~/workspace &> /dev/null
+    mkdir -p ~/oma/"$OMAADRESS" &> /dev/null
     git clone --depth=1 https://github.com/paperbenni/omablog ~/workspace/omablog
     # init new blog
     {
@@ -36,7 +36,7 @@ busybox httpd -p 8088 .
 while :
 do
     sleep 10
-    if ! pgrep httpd
+    if ! pgrep httpd && ! pgrep busybox
     then
         busybox httpd -p 8088 .
     fi
