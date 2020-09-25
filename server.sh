@@ -13,8 +13,10 @@ then
     echo "pulling blog"
     mkdir ~/workspace
     git clone --depth=1 https://github.com/paperbenni/omablog ~/workspace/omablog
+    # init new blog
     {
         cat ~/workspace/omablog/blog.html
+        cat ~/workspace/omablog/example.html
         cat ~/workspace/omablog/end.html
     } > blog.html
 fi

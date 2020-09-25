@@ -1,11 +1,6 @@
 #!/bin/bash
 
-# import paperbash
-source <(curl -Ls https://git.io/JerLG)
-pb dialog
-
-mkdir -p ~/.cache/omablog
-cd ~/.cache/omablog || exit 1
+# omablog: super simple blogging/link aggregation system
 
 if [ -z "$OMASERVER" ] ||
     [ -z "$OMASERVER" ] ||
@@ -17,6 +12,20 @@ if [ -z "$OMASERVER" ] ||
     exit 1
 fi
 
+checkcmd() {
+    if ! command -v "$1" &> /dev/null; then
+        echo "$1 missing, please install"
+        exit 1
+    fi
+}
+
+checkcmd git
+checkcmd rsync
+checkcmd ssh
+
+mkdir -p ~/.cache/omablog
+cd ~/.cache/omablog || exit 1
+
 if ! [ -e ~/workspace/omablog ]; then
     echo "pulling blog"
     mkdir ~/workspace
@@ -26,17 +35,6 @@ fi
 pullblog() {
     curl -s "$OMAURL/posts.html" >posts.html
 }
-
-checkcmd() {
-    if ! command -v "$1"; then
-        echo "$1 missing, please install"
-        exit 1
-    fi
-}
-
-checkcmd fzf
-checkcmd git
-checkcmd dialog
 
 if [ -z "$2" ]; then
     if [ -n "$1" ]; then
@@ -77,3 +75,6 @@ cat ~/workspace/omablog/blog.html >finished.html
 } >>finished.html
 
 echo "finished"
+
+rsync sync -P ~/.cache/omablog/ "$OMAUSER@$OMASERVER:/home/omablog/$OMAADRESS"
+
