@@ -3,8 +3,6 @@
 # omablog: super simple blogging/link aggregation system
 
 if [ -z "$OMASERVER" ] ||
-    [ -z "$OMASERVER" ] ||
-    [ -z "$OMAUSER" ] ||
     [ -z "$OMAADRESS" ] ||
     [ -z "$OMAPASS" ]; then
 
@@ -33,7 +31,7 @@ if ! [ -e ~/workspace/omablog ]; then
 fi
 
 pullblog() {
-    curl -s "$OMAURL/posts.html" >posts.html
+    curl -s "http://$OMASERVER:8088/$OMAADRESS/posts.html" >posts.html
 }
 
 if [ -z "$2" ]; then
@@ -76,5 +74,5 @@ cat ~/workspace/omablog/blog.html >finished.html
 
 echo "finished"
 
-rsync sync -P ~/.cache/omablog/ "$OMAUSER@$OMASERVER:/home/omablog/$OMAADRESS"
+rsync sync -P ~/.cache/omablog/ "omablog@$OMASERVER:/home/omablog/$OMAADRESS"
 

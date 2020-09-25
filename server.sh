@@ -36,7 +36,7 @@ busybox httpd -p 8088 .
 while :
 do
     sleep 10
-    if ! pgrep httpd && ! pgrep busybox
+    if ! pgrep httpd &> /dev/null && ! pgrep busybox &> /dev/null
     then
         busybox httpd -p 8088 .
     fi
