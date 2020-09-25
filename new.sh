@@ -11,7 +11,7 @@ if [ -z "$OMASERVER" ] ||
 fi
 
 checkcmd() {
-    if ! command -v "$1" &> /dev/null; then
+    if ! command -v "$1" &>/dev/null; then
         echo "$1 missing, please install"
         exit 1
     fi
@@ -21,7 +21,9 @@ checkcmd git
 checkcmd rsync
 checkcmd ssh
 
+rm -rf ~/.cache/omablog
 mkdir -p ~/.cache/omablog
+
 cd ~/.cache/omablog || exit 1
 
 if ! [ -e ~/workspace/omablog ]; then
@@ -30,9 +32,6 @@ if ! [ -e ~/workspace/omablog ]; then
     git clone --depth=1 https://github.com/paperbenni/omablog ~/workspace/omablog
 fi
 
-pullblog() {
-    curl -s "http://$OMASERVER:8088/$OMAADRESS/posts.html" >posts.html
-}
 
 if [ -z "$2" ]; then
     if [ -n "$1" ]; then
@@ -53,7 +52,9 @@ if [ -n "$LINK" ]; then
     echo '<a href="'"$LINK"'" class="pure-button postbutton" target="_blank">'"$BUTTONTEXT"'</a>' >newpost.html
 fi
 
-if [ -n "$CONTENT" ]; then
+curl -s "http://$OMASERVER:8088/$OMAADRESS/posts.html" >posts.html
+
+if [ -z "$CONTENT" ]; then
     echo "no content"
 else
     {
@@ -66,13 +67,16 @@ echo '<hr>' >>newpost.html
 
 cat ~/workspace/omablog/blog.html >finished.html
 
+cat newpost.html > tposts.html
+cat posts.html >> tposts.html
+cat tposts.html > posts.html
+
 {
-    cat newpost.html
-    cat posts.html
+    cat tposts.html
     cat ~/workspace/omablog/end.html
 } >>finished.html
 
+cp finished.html blog.html
+
 echo "finished"
-
-rsync sync -P ~/.cache/omablog/ "omablog@$OMASERVER:/home/omablog/$OMAADRESS"
-
+sshpass -p "$OMAPASS" rsync -Pza ~/.cache/omablog/ "omablog@$OMASERVER:/home/omablog/oma/$OMAADRESS/"

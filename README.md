@@ -6,5 +6,4 @@ A super simple blogging system/link aggregator for my grandma
 
 OMAPASS
 OMAADRESS
-OMAUSER
 OMASERVER
