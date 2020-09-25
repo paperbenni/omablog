@@ -2,7 +2,7 @@
 
 echo "starting omablog"
 
-if [ -n "$OMAADRESS" ]
+if [ -z "$OMAADRESS" ]
 then
     echo "please set OMAADRESS"
     exit 1
@@ -12,13 +12,15 @@ if ! [ -e ~/oma/"$OMAADRESS"/blog.html ]
 then
     echo "pulling blog"
     mkdir ~/workspace
+    mkdir -p ~/oma/"$OMAADRESS"
     git clone --depth=1 https://github.com/paperbenni/omablog ~/workspace/omablog
     # init new blog
     {
         cat ~/workspace/omablog/blog.html
         cat ~/workspace/omablog/example.html
         cat ~/workspace/omablog/end.html
-    } > blog.html
+    } > ~/oma/"$OMAADRESS"/blog.html
+    cat ~/workspace/example.html > ~/oma/"$OMAADRESS"/posts.html
 fi
 
 cd ~/oma/ || exit 1
