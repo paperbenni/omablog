@@ -7,7 +7,12 @@ pb dialog
 mkdir -p ~/.cache/omablog
 cd ~/.cache/omablog || exit 1
 
-if [ -z "$OMAURL" ] || [ -z "$OMASERVER" ]; then
+if [ -z "$OMASERVER" ] ||
+    [ -z "$OMASERVER" ] ||
+    [ -z "$OMAUSER" ] ||
+    [ -z "$OMAADRESS" ] ||
+    [ -z "$OMAPASS" ]; then
+
     echo "not logged in"
     exit 1
 fi
@@ -63,8 +68,12 @@ else
 fi
 echo '<hr>' >>newpost.html
 
-cat ~/workspace/omablog/blog.html > finished.html
-cat newpost.html >> finished.html
-cat ~/workspace/omablog/end.html >> finished.html
+cat ~/workspace/omablog/blog.html >finished.html
+
+{
+    cat newpost.html
+    cat posts.html
+    cat ~/workspace/omablog/end.html
+} >>finished.html
 
 echo "finished"
