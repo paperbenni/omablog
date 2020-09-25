@@ -20,7 +20,7 @@ then
         cat ~/workspace/omablog/example.html
         cat ~/workspace/omablog/end.html
     } > ~/oma/"$OMAADRESS"/blog.html
-    cat ~/workspace/example.html > ~/oma/"$OMAADRESS"/posts.html
+    cat ~/workspace/omablog/example.html > ~/oma/"$OMAADRESS"/posts.html
 fi
 
 cd ~/oma/ || exit 1
