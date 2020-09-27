@@ -21,18 +21,31 @@ then
     exit
 fi
 
-if ! ping -c mc.paperbenni.xyz
+source ~/omapass
+
+if [ -z "$OMAPASS" ]
+then
+    echo "omapass not set "
+    exit 1
+fi
+
+if ! ping -c 1 mc.paperbenni.xyz
 then
     echo "kein internet"
     sleep 1
 else
-    sshpass -p "$OMAPASS" rsync -Pza "omablog@$OMASERVER:/home/omablog/oma/" ~/oma
-fi &
+    if [ -e ~/oma/ ]
+    then
+        sshpass -p "$OMAPASS" rsync -Pza "omablog@$OMASERVER:/home/omablog/oma/" ~/oma &
+    else
+        sshpass -p "$OMAPASS" rsync -Pza "omablog@$OMASERVER:/home/omablog/oma/" ~/oma &
+    fi
+fi 
 
 if ! pgrep busybox
 then
-    ~/workspace/omablog/server.sh
+    ~/workspace/omablog/server.sh & 
     sleep 10
 fi
 
-termux-open-url http://localhost:8088
+termux-open-url http://localhost:8088/"$OMAADRESS"/blog.html
