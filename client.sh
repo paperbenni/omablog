@@ -36,12 +36,7 @@ then
     echo "kein internet"
     sleep 1
 else
-    if [ -e ~/oma/ ]
-    then
-        sshpass -p "$OMAPASS" rsync -Pza "omablog@$OMASERVER:/home/omablog/oma/" ~/oma &
-    else
         sshpass -p "$OMAPASS" rsync -Pza "omablog@$OMASERVER:/home/omablog/oma/" ~/oma
-    fi
 fi 
 
 if ! pgrep busybox
