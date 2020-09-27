@@ -38,7 +38,7 @@ else
     then
         sshpass -p "$OMAPASS" rsync -Pza "omablog@$OMASERVER:/home/omablog/oma/" ~/oma &
     else
-        sshpass -p "$OMAPASS" rsync -Pza "omablog@$OMASERVER:/home/omablog/oma/" ~/oma &
+        sshpass -p "$OMAPASS" rsync -Pza "omablog@$OMASERVER:/home/omablog/oma/" ~/oma
     fi
 fi 
 
@@ -46,6 +46,9 @@ if ! pgrep busybox
 then
     ~/workspace/omablog/server.sh & 
     sleep 10
+    cd ~/workspace/omablog/ || echo "error"
+    git pull
 fi
 
 termux-open-url http://localhost:8088/"$OMAADRESS"/blog.html
+
