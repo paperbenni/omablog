@@ -52,7 +52,7 @@ if [ -n "$LINK" ]; then
     echo '<a href="'"$LINK"'" class="pure-button postbutton" target="_blank">'"$BUTTONTEXT"'</a>' >newpost.html
 fi
 
-curl -s "http://$OMASERVER:8088/$OMAADRESS/posts.html" >posts.html
+sshpass -p "$OMAPASS" rsync -Pza "omablog@$OMASERVER:/home/omablog/oma/$OMAADRESS/posts.html" ~/.cache/omablog/posts.html
 
 if [ -z "$CONTENT" ]; then
     echo "no content"

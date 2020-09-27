@@ -31,6 +31,7 @@ then
     exit 1
 fi
 
+cd ~/oma || exit 1
 busybox httpd -p 8088 .
 
 while :
