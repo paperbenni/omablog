@@ -2,6 +2,12 @@
 
 # omablog: super simple blogging/link aggregation system
 
+if [ -e ~/.omapass ]; then
+    source ~/.omapass
+elif [ -e ~/omapass ]; then
+    source ~/omapass
+fi
+
 if [ -z "$OMASERVER" ] ||
     [ -z "$OMAADRESS" ] ||
     [ -z "$OMAPASS" ]; then
@@ -31,7 +37,6 @@ if ! [ -e ~/workspace/omablog ]; then
     mkdir ~/workspace
     git clone --depth=1 https://github.com/paperbenni/omablog ~/workspace/omablog
 fi
-
 
 if [ -z "$2" ]; then
     if [ -n "$1" ]; then
@@ -67,9 +72,9 @@ echo '<hr>' >>newpost.html
 
 cat ~/workspace/omablog/blog.html >finished.html
 
-cat newpost.html > tposts.html
-cat posts.html >> tposts.html
-cat tposts.html > posts.html
+cat newpost.html >tposts.html
+cat posts.html >>tposts.html
+cat tposts.html >posts.html
 
 {
     cat tposts.html

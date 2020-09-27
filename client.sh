@@ -15,15 +15,13 @@ checkcmd ping
 checkcmd sshpass
 checkcmd busybox
 
-if ! [ -e ~/omapass ]
-then
-    echo "no pass found"
-    exit
+if [ -e ~/.omapass ]; then
+    source ~/.omapass
+elif [ -e ~/omapass ]; then
+    source ~/omapass
 fi
 
-
 cd ~/workspace/omablog || exit 1
-source ~/omapass
 
 if [ -z "$OMAPASS" ]
 then
