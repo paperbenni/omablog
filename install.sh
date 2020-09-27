@@ -9,5 +9,5 @@ cd ~/workspace/omablog
 
 for i in ./*.sh
 do
-    sed -i '1s~.*~'"$BASHPATH" "$i"
+    sed -i '1s~.*~'"#!$BASHPATH~g" "$i"
 done
