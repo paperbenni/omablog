@@ -21,6 +21,8 @@ then
     exit
 fi
 
+
+cd ~/workspace/omablog || exit 1
 source ~/omapass
 
 if [ -z "$OMAPASS" ]
